@@ -1,0 +1,40 @@
+.product {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  padding: 4px 8px;
+}
+
+.product > * {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.name {
+  width: 320px;
+}
+
+.price {
+  width: 64px;
+}
+
+.qty {
+  width: 80px;
+}
+
+.side {
+  width: 48px;
+}
+
+.valuation {
+  width: 96px;
+}
+
+.profitloss {
+  width: 82px;
+}
