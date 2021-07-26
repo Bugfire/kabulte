@@ -1,13 +1,13 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import { browser } from '$app/env';
-  import type { Position信用, Order信用 } from '$lib/kabu_api';
-  import { positions, orders, ProductEnum } from '$lib/kabu_api';
+  import type { Order信用, Position信用 } from '$lib/kabu_api';
+  import { orders, positions, ProductEnum } from '$lib/kabu_api';
   import { subscribe, logout } from '$lib/login_state';
-  import PositionMarginHeader from '$lib/components/PositionMarginHeader.svelte';
-  import PositionMarginItem from '$lib/components/PositionMarginItem.svelte';
   import OrderMarginHeader from '$lib/components/OrderMarginHeader.svelte';
   import OrderMarginItem from '$lib/components/OrderMarginItem.svelte';
+  import PositionMarginHeader from '$lib/components/PositionMarginHeader.svelte';
+  import PositionMarginItem from '$lib/components/PositionMarginItem.svelte';
 
   let state: '-' | 'ロード中' | 'ready' = '-';
   let orderList: Order信用[][] = [];

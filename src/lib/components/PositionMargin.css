@@ -20,21 +20,21 @@
   width: 320px;
 }
 
+.side {
+  width: 48px;
+  font-size: 24px;
+}
+
 .price {
-  width: 64px;
+  width: 80px;
 }
 
 .qty {
   width: 80px;
 }
 
-.side {
-  width: 48px;
-  font-size: 24px;
-}
-
 .valuation {
-  width: 96px;
+  width: 128px;
 }
 
 .profitloss {

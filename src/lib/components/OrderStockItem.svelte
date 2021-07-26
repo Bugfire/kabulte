@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Order信用 } from '$lib/kabu_api';
+  import type { Order現物 } from '$lib/kabu_api';
   import { SideEnumRev, CashMarginEnum, OrderStateEnum, MarginTradeTypeEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
   import { localeNumber, formatDate } from '$lib/format';
-  import "./OrderMargin.css";
+  import "./OrderStock.css";
 
-  export let order: Order信用;
+  export let order: Order現物;
 </script>
 
 <div>
@@ -13,16 +13,11 @@
       <div>{order.Symbol} {order.ExchangeName}</div>
       <div>{order.SymbolName}</div>
     </div>
-    <div class="margin">
-      <div>{CashMarginEnum[order.CashMargin]}</div>
-      <div>{MarginTradeTypeEnum[order.MarginTradeType]}</div>
-    </div>
     <div class="side">{SideEnumRev[order.Side]}</div>
     <div class="price">{localeNumber(order.Price)}</div>
     <div class="qty">{order.CumQty} / {order.OrderQty} </div>
     <div class="expire_day">{formatDate(order.ExpireDay)}</div>
     <div class="order_state">{OrderStateEnum[order.OrderState]}</div>
-    <div class="margin_premium">{typeof order.MarginPremium === 'string' ? order.MarginPremium : ''}</div>
   </div>
   {#if order.Details.length > 0}
     <details>
@@ -68,10 +63,6 @@
   }
 
   .qty {
-    align-items: flex-end;
-  }
-
-  .margin_premium {
     align-items: flex-end;
   }
 

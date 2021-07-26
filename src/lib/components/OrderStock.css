@@ -1,4 +1,4 @@
-.position {
+.order {
   background-color: #fff;
   display: flex;
   flex-direction: row;
@@ -7,7 +7,7 @@
   padding: 4px 8px;
 }
 
-.position > * {
+.order > * {
   display: flex;
   align-content: center;
   align-items: center;
@@ -16,8 +16,18 @@
   width: 80px;
 }
 
+summary {
+  background: white;
+  padding-left: 16px;
+}
+
 .name {
   width: 320px;
+}
+
+.side {
+  width: 48px;
+  font-size: 24px;
 }
 
 .price {
@@ -28,15 +38,10 @@
   width: 80px;
 }
 
-.side {
-  width: 48px;
-  font-size: 24px;
+.expire_day {
+  width: 86px;
 }
 
-.valuation {
-  width: 96px;
-}
-
-.profitloss {
-  width: 82px;
+.order_state {
+  width: 80px;
 }

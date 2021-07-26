@@ -11,7 +11,7 @@
   <div class="corner">Kabulte</div>
 	<nav>
 		<ul>
-			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">保有一覧</a></li>
+			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">Home</a></li>
 			<li class:active={$page.path === '/stock'}><a sveltekit:prefetch href="/stock">現物株式</a></li>
 			<li class:active={$page.path === '/margin'}><a sveltekit:prefetch href="/margin">信用建玉</a></li>
 		</ul>

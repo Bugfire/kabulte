@@ -184,8 +184,8 @@ type Position共通 = {
 type Position現物 = Position共通 & {
   /** 約定番号: 現物の場合は null */
   ExecutionID: null;
-  /** 約定日(建玉日): 現物の場合は null */
-  ExecutionDay: null;
+  /** 約定日(建玉日): 現物の場合は null、ドキュメントにはあるが実際には undefined */
+  // ExecutionDay: null;
 };
 
 type Position信用 = Position共通 & {
