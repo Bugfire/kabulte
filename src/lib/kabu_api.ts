@@ -294,6 +294,7 @@ enum OrderStateEnum {
 
 /** 執行条件 */
 enum OrderTypeEnum {
+  '' = 0,
   ザラバ = 1,
   寄り = 2,
   引け = 3,
