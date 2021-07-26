@@ -53,3 +53,129 @@ body {
 .red {
   color: red;
 }
+
+.order {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  padding: 4px 8px;
+}
+
+.order > * {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80px;
+}
+
+.order.header {
+  background-color: #eee;
+  font-weight: 700;
+}
+
+.order.header > * {
+  align-items: center;
+  font-size: 14px;
+}
+
+.position {
+  background-color: #fff;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  padding: 4px 8px;
+}
+
+.position.header {
+  background-color: #eee;
+  font-weight: 700;
+}
+
+.position.header > * {
+  align-items: center;
+  font-size: 14px;
+}
+
+.position.header > .expire_day {
+  font-size: 14px;
+}
+
+.position > * {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 80px;
+}
+
+summary {
+  background: white;
+  padding-left: 16px;
+}
+
+.name {
+  width: 320px;
+  font-size: 20px;
+  align-items: flex-start;
+}
+
+.name > :nth-child(1) {
+  font-size: 12px;
+}
+
+.margin {
+  width: 80px;
+  font-size: 12px;
+  align-items: flex-start;
+}
+
+.side {
+  width: 48px;
+  font-size: 24px;
+}
+
+.price {
+  width: 96px;
+  align-items: flex-end;
+}
+
+.qty {
+  width: 80px;
+  align-items: flex-end;
+}
+
+.expire_day {
+  width: 86px;
+  font-size: 14px;
+}
+
+.order_state {
+  width: 80px;
+}
+
+.margin_premium {
+  width: 96px;
+  align-items: flex-end;
+}
+
+.valuation {
+  width: 140px;
+  font-size: 24px;
+  align-items: flex-end;
+}
+
+.profitloss {
+  width: 128px;
+  font-size: 20px;
+  align-items: flex-end;
+}
+
+.detail_item {
+  font-size: 12px;
+}

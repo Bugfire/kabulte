@@ -63,8 +63,6 @@
 </svelte:head>
 
 <div class="container">
-  <button class="gray-btn" on:click={reload}>更新</button> 
-
   {#if state === 'ready' && positionList.length === 0 && orderList.length === 0}
     <div class="message">データ無し</div>
   {:else if state === 'ready'}

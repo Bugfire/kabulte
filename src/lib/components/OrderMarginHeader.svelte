@@ -1,7 +1,3 @@
-<script lang="ts">
-  import "./OrderMargin.css";
-</script>
-
 <div>
   <div class="order header">
     <div class="name">銘柄</div>
@@ -14,22 +10,3 @@
     <div class="margin_premium">プレミアム料</div>
   </div>
 </div>
-
-<style>
-  .header {
-    background-color: #eee;
-    font-weight: 700;
-  }
-
-  .order > * {
-    font-size: 20px;
-  }
-
-  .expire_day {
-    font-size: 14px;
-  }
-
-  .margin_premium {
-    font-size: 14px;
-  }
-</style>

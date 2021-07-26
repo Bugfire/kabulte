@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { Order現物 } from '$lib/kabu_api';
-  import { SideEnumRev, CashMarginEnum, OrderStateEnum, MarginTradeTypeEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
+  import { SideEnumRev, OrderStateEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
   import { localeNumber, formatDate } from '$lib/format';
-  import "./OrderStock.css";
 
   export let order: Order現物;
 </script>
@@ -15,7 +14,10 @@
     </div>
     <div class="side">{SideEnumRev[order.Side]}</div>
     <div class="price">{localeNumber(order.Price)}</div>
-    <div class="qty">{order.CumQty} / {order.OrderQty} </div>
+    <div class="qty">
+      <div>{order.CumQty}</div>
+      <div>{order.OrderQty}</div>
+    </div>
     <div class="expire_day">{formatDate(order.ExpireDay)}</div>
     <div class="order_state">{OrderStateEnum[order.OrderState]}</div>
   </div>
@@ -27,11 +29,32 @@
             <div class="detail_indent"></div>
             <div class="detail_item">{RecTypeEnum[detail.RecType]}</div>
             <div class="detail_item">{DetalStateEnum[detail.State]}</div>    
-            <div class="detail_item"><div>数量</div><div>{detail.Qty}</div></div>
-            <div class="detail_item">{#if detail.Price !== 0}<div>値段</div><div>{detail.Price}</div>{/if}</div>
-            <div class="detail_item">{#if OrderTypeEnum[detail.OrdType] !== ''}<div>執行条件</div><div>{OrderTypeEnum[detail.OrdType]}</div>{/if}</div>
-            <div class="detail_item"><div>受渡日</div><div>{formatDate(detail.DelivDay)}</div></div>
-            <div class="detail_item">{#if detail.Commission}<div>手数料</div><div>{detail.Commission}</div>{/if}</div>
+            <div class="detail_item">
+              <div>数量</div>
+              <div>{detail.Qty}</div>
+            </div>
+            <div class="detail_item">
+              {#if detail.Price}
+                <div>値段</div>
+                <div>{detail.Price}</div>
+              {/if}
+            </div>
+            <div class="detail_item">
+              {#if detail.OrdType !== null && OrderTypeEnum[detail.OrdType] !== ''}
+                <div>執行条件</div>
+                <div>{OrderTypeEnum[detail.OrdType]}</div>
+              {/if}
+            </div>
+            <div class="detail_item">
+              <div>受渡日</div>
+              <div>{formatDate(detail.DelivDay)}</div>
+            </div>
+            <div class="detail_item">
+              {#if detail.Commission}
+                <div>手数料</div>
+                <div>{detail.Commission}</div>
+              {/if}
+            </div>
           </div>
         {/each}
     </details>
@@ -39,39 +62,8 @@
 </div>
 
 <style>
-  .name {
-    width: 320px;
-    align-items: flex-start;
-  }
-
-  .name > * {
-    font-size: 20px;
-  }
-
-  .name > :nth-child(1) {
-    font-size: 12px;
-  }
-
-  .margin {
-    width: 80px;
-    align-items: flex-start;
-    font-size: 12px;
-  }
-
-  .price {
-    align-items: flex-end;
-  }
-
-  .qty {
-    align-items: flex-end;
-  }
-
   .detail_indent {
     width: 0;
-  }
-
-  .detail_item {
-    font-size: 12px;
   }
 
   .detail_item > :nth-child(1) {

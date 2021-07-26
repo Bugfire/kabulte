@@ -449,6 +449,67 @@ type OrdersSuccessResponse = Order[];
 
 type OrdersResponse = OrdersSuccessResponse | OrdersErrorResponse;
 
+/** 取引余力(現物) */
+const walletCash = async (): Promise<number> => {
+  const r = await fetch(`${baseUrl}/wallet/cash`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
+  });
+
+  const response: WalletCashResponse = await r.json();
+  if (r.status !== 200) {
+    const errResponse = response as WalletCashErrorResponse;
+    console.log(response);
+    throw new Error(errResponse.Message);
+  } else {
+    const sucResponse = response as WalletCashSuccessResponse;
+    return sucResponse.StockAccountWallet;
+  }
+};
+
+type WalletCashSuccessResponse = {
+  StockAccountWallet: number;
+};
+
+type WalletCashErrorResponse = {
+  Code: number;
+  Message: string;
+}
+
+type WalletCashResponse = WalletCashSuccessResponse | WalletCashErrorResponse;
+
+/** 取引余力(信用) */
+const walletMargin = async (): Promise<number> => {
+  const r = await fetch(`${baseUrl}/wallet/margin`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
+  });
+
+  const response: WalletMarginResponse = await r.json();
+  if (r.status !== 200) {
+    const errResponse = response as WalletMarginErrorResponse;
+    console.log(response);
+    throw new Error(errResponse.Message);
+  } else {
+    const sucResponse = response as WalletMarginSuccessResponse;
+    return sucResponse.MarginAccountWallet;
+  }
+};
+
+type WalletMarginSuccessResponse = {
+  MarginAccountWallet: number;
+  DepositkeepRate: number;
+  ConsignmentDepositRate: number | 'None';
+  CashOfConsignmentDepositRate: number | 'None';
+};
+
+type WalletMarginErrorResponse = {
+  Code: number;
+  Message: string;
+}
+
+type WalletMarginResponse = WalletMarginSuccessResponse | WalletMarginErrorResponse;
+
 //
 
 export type {
@@ -470,6 +531,8 @@ export {
   clearAPIToken,
   positions,
   orders,
+  walletCash,
+  walletMargin,
   SideEnum,
   SideEnumRev,
   ProductEnum,
