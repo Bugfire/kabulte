@@ -1,20 +1,20 @@
 <script lang="ts">
   import type { Position信用 } from '$lib/kabu_api';
-  import { SideEnum } from '$lib/kabu_api';
+  import { SideEnumRev } from '$lib/kabu_api';
   import { localeNumber, signedNumber } from '$lib/format';
   import "./PositionMargin.css";
 
   export let position: Position信用;
 </script>
 
-<div class="product">
+<div class="position">
   <div class="name">
     <div>{position.Symbol} {position.ExchangeName}</div>
     <div>{position.SymbolName}</div>
   </div>
   <div class="price">{localeNumber(position.Price)}</div>
   <div class="qty">{localeNumber(position.LeavesQty)}{position.HoldQty > 0 ? ` (${localeNumber(position.HoldQty)})` : ''}</div>
-  <div class="side">{SideEnum[position.Side]}</div>
+  <div class="side">{SideEnumRev[position.Side]}</div>
   <div class="valuation {position.Valuation >= 0 ? '' : 'blue'}">{localeNumber(position.Valuation)}</div>
   <div class="profitloss {position.ProfitLoss >= 0 ? 'red' : 'blue'}">{signedNumber(position.ProfitLoss)}</div>
 </div>

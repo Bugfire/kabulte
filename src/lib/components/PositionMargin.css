@@ -1,4 +1,4 @@
-.product {
+.position {
   background-color: #fff;
   display: flex;
   flex-direction: row;
@@ -7,12 +7,13 @@
   padding: 4px 8px;
 }
 
-.product > * {
+.position > * {
   display: flex;
   align-content: center;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 80px;
 }
 
 .name {
