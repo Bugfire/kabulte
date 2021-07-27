@@ -3,7 +3,8 @@ import { setValue, getValue } from '$lib/storage'
 /** API Token は SessionStore/Cookie に保持する */
 const API_TOKEN_KEY = 'API_TOKEN';
 
-const baseUrlProduction = 'http://localhost:18080/kabusapi';
+const baseUrlProduction = 'http://mock/kabusapi';
+// const baseUrlProduction = 'http://localhost:18080/kabusapi';
 // const baseUrlDevelopment = 'http://localhost:18081/kabusapi';
 
 const baseUrl = baseUrlProduction;
