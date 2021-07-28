@@ -1,8 +1,11 @@
 <script lang="ts">
   import { browser } from '$app/env';
   import { onDestroy } from 'svelte';
+  import type { SetupWorkerApi } from 'msw';
+  import { setupWorker } from 'msw';
   import { initialize, login, subscribe, getHost } from '$lib/login_state';
   import { MOCK_HOST } from '$lib/const';
+  import { handlers } from '$lib/__mock__';
 
   // development http://localhost:18081
   // mock http://mock
@@ -14,6 +17,7 @@
   let apiHost = host === '' ? DEFAULT_HOST : host;
   let apiMock = host === MOCK_HOST;
   let error = '';
+  let mockServiceWorker: SetupWorkerApi | null = null;
 
   $: {
     if (browser) {
@@ -44,6 +48,15 @@
   onDestroy(unsubscribe);
 
   const onLogin = async () => {
+    if (apiMock) {
+      if (mockServiceWorker === null) {
+        mockServiceWorker = setupWorker(...handlers);
+        mockServiceWorker.start();
+      }
+    } else if (mockServiceWorker !== null) {
+      mockServiceWorker.stop();
+      mockServiceWorker = null;
+    }
     const pass = apiPassword;
     apiPassword = '';
     const message = await login(pass, apiHost);
