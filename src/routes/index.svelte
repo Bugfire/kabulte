@@ -5,7 +5,7 @@
   import { subscribe, logout } from '$lib/login_state';
   import { localeNumber } from '$lib/format';
 
-  let state: '-' | 'ロード中' | 'ready' = '-';
+  let state: '' | 'ロード中' | 'ready' = '';
   let walletCashValue: number | undefined = undefined;
   let walletMarginValue: number | undefined = undefined;
 
@@ -35,7 +35,7 @@
         reload();
         break;
       default:
-        state = '-';
+        state = '';
         break;
     }
   });

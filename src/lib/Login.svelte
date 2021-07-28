@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from '$app/env';
   import { onDestroy } from 'svelte';
   import { initialize, login, subscribe, getHost } from '$lib/login_state';
   import { MOCK_HOST } from '$lib/const';
@@ -7,16 +8,23 @@
   // mock http://mock
 
   const DEFAULT_HOST = 'http://localhost:18080';
+  const host = getHost();
   let show = false;
   let apiPassword = '';
-  let apiHost = getHost();
-  let apiMock = getHost() === MOCK_HOST;
+  let apiHost = host === '' ? DEFAULT_HOST : host;
+  let apiMock = host === MOCK_HOST;
   let error = '';
 
   $: {
-    console.log(apiMock);
-    if (apiMock) {
-      apiHost = MOCK_HOST;
+    if (browser) {
+      if (apiMock) {
+        apiHost = MOCK_HOST;
+      }
+      if (show) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
     }
   }
 
@@ -44,6 +52,8 @@
   const onClear = () => {
     apiPassword = '';
     apiHost = DEFAULT_HOST;
+    apiMock = false;
+    error = '';
   };
 </script>
 
@@ -64,7 +74,9 @@
             <label for="api_mock">モック</label>
           </div>
         </form>
-        <div class="error">{error}</div>
+        {#if error !== ''}
+          <div class="error">{error}</div>
+        {/if}
         <button class="green-btn" on:click={onLogin}>ログイン</button>
         <button class="gray-btn" on:click={onClear}>クリア</button>
       </div>
@@ -153,6 +165,9 @@ input::placeholder {
 
 .error {
   color: red;
+  border-radius: 20px;
+  padding: 20px;
+  background: rgba(255, 0, 0, 0.1);
 }
 
 .input-checkbox {

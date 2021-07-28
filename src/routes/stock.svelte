@@ -9,7 +9,7 @@
   import PositionStockHeader from '$lib/components/PositionStockHeader.svelte';
   import PositionStockItem from '$lib/components/PositionStockItem.svelte';
 
-  let state: '-' | 'ロード中' | 'ready' = '-';
+  let state: '' | 'ロード中' | 'ready' = '';
   let orderList: Order現物[][] = [];
   let positionList: Position現物[][] = [];
 
@@ -49,7 +49,7 @@
         reload();
         break;
       default:
-        state = '-';
+        state = '';
         break;
     }
   });

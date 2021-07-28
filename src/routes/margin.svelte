@@ -9,7 +9,7 @@
   import PositionMarginHeader from '$lib/components/PositionMarginHeader.svelte';
   import PositionMarginItem from '$lib/components/PositionMarginItem.svelte';
 
-  let state: '-' | 'ロード中' | 'ready' = '-';
+  let state: '' | 'ロード中' | 'ready' = '';
   let orderList: Order信用[][] = [];
   let positionList: Position信用[][] = [];
 
@@ -51,7 +51,7 @@
         reload();
         break;
       default:
-        state = '-';
+        state = '';
         break;
     }
   });
