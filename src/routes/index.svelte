@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import { browser } from '$app/env';
-  import { walletCash, walletMargin } from '$lib/kabu_api';
+  import { walletCash, walletMargin } from '$lib/api/kabu_api';
   import { subscribe, logout } from '$lib/login_state';
   import { localeNumber } from '$lib/format';
 

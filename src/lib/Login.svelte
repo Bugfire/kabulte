@@ -4,7 +4,7 @@
   import type { SetupWorkerApi } from 'msw';
   import { setupWorker } from 'msw';
   import { initialize, login, subscribe, getApiEnv } from '$lib/login_state';
-  import { handlers } from '$lib/__mock__';
+  import { handlers } from '$lib/api/__mock__';
 
   let show = false;
   let loading = false;
@@ -89,7 +89,7 @@
             </label>
           </div>
           <label class="input-text">API Key
-            <input placeholder="API Key" type=password bind:value={apiPassword} disabled={loading || apiEnv === 'mock'} />
+            <input class="gray-input-text" placeholder="API Key" type=password bind:value={apiPassword} disabled={loading || apiEnv === 'mock'} />
           </label>
         </form>
         {#if error !== ''}
@@ -171,29 +171,11 @@ label {
   flex-direction: column;
 }
 
-input {
-  border: 2px solid #ccc;
-  font-size: 18px;
-  padding: 8px;
-}
-
-input::placeholder {
-  opacity: 0.5;
-}
-
 .error {
   color: red;
   border-radius: 20px;
   padding: 20px;
   background: rgba(255, 0, 0, 0.1);
-}
-
-.input-text > input {
-  border-color: #888;
-}
-
-.input-text > input:disabled {
-  border-color: #eee;
 }
 
 .input-radio {

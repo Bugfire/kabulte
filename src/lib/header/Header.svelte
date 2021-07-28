@@ -14,6 +14,7 @@
 			<li class:active={$page.path === '/'}><a sveltekit:prefetch href="/">Home</a></li>
 			<li class:active={$page.path === '/stock'}><a sveltekit:prefetch href="/stock">現物株式</a></li>
 			<li class:active={$page.path === '/margin'}><a sveltekit:prefetch href="/margin">信用建玉</a></li>
+			<li class:active={$page.path === '/order'}><a sveltekit:prefetch href="/order">発注</a></li>
 		</ul>
 	</nav>
 	<div class="corner">

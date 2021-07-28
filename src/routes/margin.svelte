@@ -1,8 +1,11 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import { browser } from '$app/env';
-  import type { Order信用, Position信用 } from '$lib/kabu_api';
-  import { orders, positions, ProductEnum } from '$lib/kabu_api';
+  import { ProductEnum } from '$lib/api/common';
+  import type { Position信用 } from '$lib/api/positions';
+  import { positions } from '$lib/api/positions';
+  import type { Order信用 } from '$lib/api/orders';
+  import { orders } from '$lib/api/orders';
   import { subscribe, logout } from '$lib/login_state';
   import OrderMarginHeader from '$lib/components/OrderMarginHeader.svelte';
   import OrderMarginItem from '$lib/components/OrderMarginItem.svelte';

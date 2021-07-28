@@ -4,5 +4,6 @@
   <div class="side">売買</div>
   <div class="price">単価</div>
   <div class="qty">保有数</div>
+  <div class="expenses">諸経費</div>
   <div class="profitloss">損益</div>
 </div>

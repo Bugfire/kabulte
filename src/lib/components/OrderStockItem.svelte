@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { Order現物 } from '$lib/kabu_api';
-  import { SideEnumRev, OrderStateEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
+  import type { Order現物 } from '$lib/api/orders';
+  import { SideEnumRev, AccountTypeEnum } from '$lib/api/common';
+  import { OrderStateEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/api/orders';
   import { localeNumber, formatDate } from '$lib/format';
 
   export let order: Order現物;
@@ -9,7 +10,7 @@
 <div>
   <div class="order">
     <div class="name">
-      <div>{order.Symbol} {order.ExchangeName}</div>
+      <div>{order.Symbol} {order.ExchangeName} {AccountTypeEnum[order.AccountType]}</div>
       <div>{order.SymbolName}</div>
     </div>
     <div class="side">{SideEnumRev[order.Side]}</div>

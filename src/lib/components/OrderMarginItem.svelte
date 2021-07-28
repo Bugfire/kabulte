@@ -1,7 +1,9 @@
 <script lang="ts">
-  import type { Order信用 } from '$lib/kabu_api';
-  import { SideEnumRev, CashMarginEnum, OrderStateEnum, MarginTradeTypeEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
-  import { localeNumber, localeNumberIfNotZero, formatDate } from '$lib/format';
+  import type { Order信用 } from '$lib/api/orders';
+  import { SideEnumRev, MarginTradeTypeEnum, AccountTypeEnum } from '$lib/api/common';
+  import { OrderStateEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/api/orders';
+  import { CashMarginEnum } from '$lib/api/kabu_api';
+  import { localeNumberIfNotZero, formatDate } from '$lib/format';
 
   export let order: Order信用;
 </script>
@@ -9,7 +11,7 @@
 <div>
   <div class="order">
     <div class="name">
-      <div>{order.Symbol} {order.ExchangeName}</div>
+      <div>{order.Symbol} {order.ExchangeName} {AccountTypeEnum[order.AccountType]}</div>
       <div>{order.SymbolName}</div>
     </div>
     <div class="margin">

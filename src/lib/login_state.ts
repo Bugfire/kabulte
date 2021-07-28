@@ -1,6 +1,7 @@
 import { browser } from '$app/env';
 import { writable, Readable } from 'svelte/store';
-import { hasAPIToken, getAPIToken, clearAPIToken, getApiEnv as getApiEnvFromStorage} from '$lib/kabu_api';
+import { hasApiToken, clearApiToken, getApiEnv as getApiEnvFromStorage } from '$lib/api/util';
+import { generateToken } from '$lib/api/kabu_api';
 import type { ApiEnv } from '$lib/const';
 
 type LoginState = 'init' | 'login' | 'logout';
@@ -17,7 +18,7 @@ const setLoginState = (): Readable<LoginState> &
     if (!browser) {
       return;
     }
-    if (hasAPIToken()) {
+    if (hasApiToken()) {
       set('login');
     } else {
       set('logout');
@@ -30,7 +31,7 @@ const setLoginState = (): Readable<LoginState> &
     return getApiEnvFromStorage();
   };
   const logout = (): void => {
-    clearAPIToken();
+    clearApiToken();
     set('logout');
   };
   const login = async (apiPassword: string, apiEnv: ApiEnv): Promise<string> => {
@@ -38,7 +39,7 @@ const setLoginState = (): Readable<LoginState> &
       if (apiEnv !== 'mock' && apiPassword === '') {
         throw Error("APIパスワードが空です");
       }
-      await getAPIToken(apiPassword, apiEnv);
+      await generateToken(apiPassword, apiEnv);
     } catch (e) {
       set('logout');
       return e.message;
