@@ -4,7 +4,7 @@
     <div class="margin">取引区分</div>
     <div class="side">売買</div>
     <div class="price">単価</div>
-    <div class="qty">数量</div>
+    <div class="order_qty">数量</div>
     <div class="expire_day">注文有効期限</div>
     <div class="order_state">状態</div>
     <div class="margin_premium">プレミアム料</div>

@@ -14,7 +14,7 @@
     </div>
     <div class="side">{SideEnumRev[order.Side]}</div>
     <div class="price">{localeNumber(order.Price)}</div>
-    <div class="qty">
+    <div class="order_qty">
       <div>{order.CumQty}</div>
       <div>{order.OrderQty}</div>
     </div>
@@ -36,7 +36,7 @@
             <div class="detail_item">
               {#if detail.Price}
                 <div>値段</div>
-                <div>{detail.Price}</div>
+                <div>{detail.Price}円</div>
               {/if}
             </div>
             <div class="detail_item">
@@ -52,7 +52,7 @@
             <div class="detail_item">
               {#if detail.Commission}
                 <div>手数料</div>
-                <div>{detail.Commission}</div>
+                <div>{detail.Commission}円</div>
               {/if}
             </div>
           </div>

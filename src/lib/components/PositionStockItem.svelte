@@ -11,8 +11,8 @@
     <div>{position.SymbolName}</div>
   </div>
   <div class="price">
-    <div>現 {localeNumber(position.Valuation / position.LeavesQty)}</div>
-    <div>{localeNumber(position.Price)}</div>
+    <div>現 {localeNumber(position.CurrentPrice)}円</div>
+    <div>{localeNumber(position.Price)}円</div>
   </div>
   <div class="qty">{localeNumber(position.LeavesQty)}{position.HoldQty > 0 ? ` (${localeNumber(position.HoldQty)})` : ''}</div>
   <div class="valuation">{localeNumber(position.Valuation)}円</div>

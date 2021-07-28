@@ -1,13 +1,11 @@
 import { setValue, getValue } from '$lib/storage'
 
-/** API Token は SessionStore/Cookie に保持する */
+/** 以下SessionStore/Cookie に保持する時のキー */
+
+/** API Token */
 const API_TOKEN_KEY = 'API_TOKEN';
-
-const baseUrlProduction = 'http://mock/kabusapi';
-// const baseUrlProduction = 'http://localhost:18080/kabusapi';
-// const baseUrlDevelopment = 'http://localhost:18081/kabusapi';
-
-const baseUrl = baseUrlProduction;
+/** API Host */
+const API_HOST_KEY = "API_HOST";
 
 /** 商品区分 */
 enum ProductEnum {
@@ -59,6 +57,24 @@ const clearAPIToken = (): void => {
   setValue(API_TOKEN_KEY, '');
 };
 
+/** API Host を取得する */
+const getAPIHost = (): string => {
+  return getValue(API_HOST_KEY) ?? '';
+};
+
+/** API の URL prefix を取得する */
+const baseUrl = (): string => {
+  const host = getAPIHost();
+  if (host === '') {
+    throw new Error('APIホストが未設定です');
+  }
+  const prefixes = ['http://', 'https://'];
+  if (!prefixes.some(v => host.substr(0, v.length) === v)) {
+    throw new Error(`APIホストは${prefixes.join(',')}で始まる必要があります`);
+  }
+  return `${host}/kabusapi`;
+}
+
 /** APIキーを取得します */
 const getAPIKey = (): string => {
   const apiKey = getValue(API_TOKEN_KEY);
@@ -69,13 +85,11 @@ const getAPIKey = (): string => {
 };
 
 /** トークン発行: APIパスワードを渡し、API Token を取得する */
-const getAPIToken = async (apiPassword: string): Promise<string> => {
+const getAPIToken = async (apiPassword: string, apiHost: string): Promise<string> => {
   setValue(API_TOKEN_KEY, '');
-  if (apiPassword === '') {
-    throw Error("APIパスワードが空です");
-  }
+  setValue(API_HOST_KEY, apiHost);
 
-  const r = await fetch(`${baseUrl}/token`, {
+  const r = await fetch(`${baseUrl()}/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', },
     body: JSON.stringify({ APIpassword: apiPassword } as TokenRequest),
@@ -118,7 +132,7 @@ const objectToParams = (object: Record<string, unknown>): Record<string, string>
 /** 残高照会 */
 const positions = async (request?: PositionsRequest): Promise<Position[]> => {
   const queryParams = new URLSearchParams(objectToParams(request ? request : {}));
-  const r = await fetch(`${baseUrl}/positions?${queryParams}`, {
+  const r = await fetch(`${baseUrl()}/positions?${queryParams}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
   });
@@ -252,7 +266,7 @@ type PositionsResponse = PositionsSuccessResponse | PositionsErrorResponse;
 /** 注文照会 */
 const orders = async (request?: OrdersRequest): Promise<Order[]> => {
   const queryParams = new URLSearchParams(objectToParams(request ? request : {}));
-  const r = await fetch(`${baseUrl}/orders?${queryParams}`, {
+  const r = await fetch(`${baseUrl()}/orders?${queryParams}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
   });
@@ -452,7 +466,7 @@ type OrdersResponse = OrdersSuccessResponse | OrdersErrorResponse;
 
 /** 取引余力(現物) */
 const walletCash = async (): Promise<number> => {
-  const r = await fetch(`${baseUrl}/wallet/cash`, {
+  const r = await fetch(`${baseUrl()}/wallet/cash`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
   });
@@ -481,7 +495,7 @@ type WalletCashResponse = WalletCashSuccessResponse | WalletCashErrorResponse;
 
 /** 取引余力(信用) */
 const walletMargin = async (): Promise<number> => {
-  const r = await fetch(`${baseUrl}/wallet/margin`, {
+  const r = await fetch(`${baseUrl()}/wallet/margin`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getAPIKey() },
   });
@@ -530,6 +544,7 @@ export {
   hasAPIToken,
   getAPIToken,
   clearAPIToken,
+  getAPIHost,
   positions,
   orders,
   walletCash,

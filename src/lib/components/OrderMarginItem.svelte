@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Order信用 } from '$lib/kabu_api';
   import { SideEnumRev, CashMarginEnum, OrderStateEnum, MarginTradeTypeEnum, DetalStateEnum, OrderTypeEnum, RecTypeEnum } from '$lib/kabu_api';
-  import { localeNumber, formatDate } from '$lib/format';
+  import { localeNumber, localeNumberIfNotZero, formatDate } from '$lib/format';
 
   export let order: Order信用;
 </script>
@@ -17,14 +17,14 @@
       <div>{MarginTradeTypeEnum[order.MarginTradeType]}</div>
     </div>
     <div class="side">{SideEnumRev[order.Side]}</div>
-    <div class="price">{localeNumber(order.Price)}</div>
-    <div class="qty">
+    <div class="price">{localeNumberIfNotZero(order.Price)}</div>
+    <div class="order_qty">
       <div>{order.CumQty}</div>
       <div>{order.OrderQty}</div>
     </div>
     <div class="expire_day">{formatDate(order.ExpireDay)}</div>
     <div class="order_state">{OrderStateEnum[order.OrderState]}</div>
-    <div class="margin_premium">{typeof order.MarginPremium === 'string' ? order.MarginPremium : ''}</div>
+    <div class="margin_premium">{typeof order.MarginPremium === 'number' ? order.MarginPremium + '円' : ''}</div>
   </div>
   {#if order.Details.length > 0}
     <details>
@@ -41,7 +41,7 @@
             <div class="detail_item">
               {#if detail.Price}
                 <div>値段</div>
-                <div>{detail.Price}</div>
+                <div>{detail.Price}円</div>
               {/if}
             </div>
             <div class="detail_item">
@@ -56,7 +56,7 @@
             <div class="detail_item">
               {#if detail.Commission}
                 <div>手数料</div>
-                <div>{detail.Commission}</div>
+                <div>{detail.Commission}円</div>
               {/if}
             </div>
           </div>

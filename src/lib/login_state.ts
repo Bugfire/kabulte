@@ -1,29 +1,47 @@
+import { browser } from '$app/env';
 import { writable, Readable } from 'svelte/store';
-import { hasAPIToken, getAPIToken, clearAPIToken } from '$lib/kabu_api';
+import { hasAPIToken, getAPIToken, clearAPIToken, getAPIHost } from '$lib/kabu_api';
+import { MOCK_HOST } from '$lib/const';
 
 type LoginState = 'init' | 'login' | 'logout';
-  
-function setLoginState(): Readable<LoginState> &
+
+const setLoginState = (): Readable<LoginState> &
 {
   initialize: () => Promise<void>,
-  login: (apiPassword: string) => Promise<string>,
+  login: (apiPassword: string, apiHost: string) => Promise<string>,
   logout: () => void,
-} {
+  getHost: () => string,
+} => {
   const { subscribe, set } = writable<LoginState>('init');
   const initialize = async (): Promise<void> => {
+    if (!browser) {
+      return;
+    }
     if (hasAPIToken()) {
       set('login');
     } else {
       set('logout');
     }
   };
+  const getHost = (): string => {
+    if (!browser) {
+      return '';
+    }
+    return getAPIHost();
+  };
   const logout = (): void => {
     clearAPIToken();
     set('logout');
   };
-  const login = async (apiPassword: string): Promise<string> => {
+  const login = async (apiPassword: string, apiHost: string): Promise<string> => {
     try {
-      await getAPIToken(apiPassword);
+      if (apiHost === '') {
+        throw Error("APIホストが空です");
+      }
+      if (apiHost !== MOCK_HOST && apiPassword === '') {
+        throw Error("APIパスワードが空です");
+      }
+      await getAPIToken(apiPassword, apiHost);
     } catch (e) {
       set('logout');
       return e.message;
@@ -36,8 +54,9 @@ function setLoginState(): Readable<LoginState> &
     login,
     logout,
     subscribe,
+    getHost,
   };
 };
 
-export const { initialize, login, logout, subscribe } = setLoginState();
+export const { initialize, getHost, login, logout, subscribe } = setLoginState();
 

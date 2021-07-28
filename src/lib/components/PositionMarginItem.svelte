@@ -14,8 +14,8 @@
   <div class="margin">{MarginTradeTypeEnum[position.MarginTradeType]}</div>
   <div class="side">{SideEnumRev[position.Side]}</div>
   <div class="price">
-    <div>現 {localeNumber(position.Valuation / position.LeavesQty)}</div>
-    <div>{localeNumber(position.Price)}</div>
+    <div>現 {localeNumber(position.Valuation / position.LeavesQty)}円</div>
+    <div>{localeNumber(position.Price)}円</div>
   </div>
   <div class="qty">{localeNumber(position.LeavesQty)}{position.HoldQty > 0 ? ` (${localeNumber(position.HoldQty)})` : ''}</div>
   <div class="profitloss">

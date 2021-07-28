@@ -1,15 +1,17 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
-  import { browser } from '$app/env';
-  import { initialize, login, subscribe } from '$lib/login_state';
+  import { initialize, login, subscribe, getHost } from '$lib/login_state';
 
+  // development http://localhost:18081
+  // mock http://mock
+
+  const DEFAULT_HOST = 'http://localhost:18080';
   let show = false;
   let apiPassword = '';
+  let apiHost = getHost();
   let error = '';
 
-  if (browser) {
-    initialize();
-  }
+  initialize();
 
   const unsubscribe = subscribe(value => {
     switch (value) {
@@ -25,13 +27,14 @@
   onDestroy(unsubscribe);
 
   const onLogin = async () => {
-    const p = apiPassword;
+    const pass = apiPassword;
     apiPassword = '';
-    const message = await login(p);
+    const message = await login(pass, apiHost);
     error = message;
   };
   const onClear = () => {
     apiPassword = '';
+    apiHost = DEFAULT_HOST;
   };
 </script>
 
@@ -43,6 +46,9 @@
         <form>
           <label>API Key
             <input placeholder="API Key" type="password" bind:value={apiPassword} />
+          </label>
+          <label>接続先
+            <input type="text" bind:value={apiHost} />
           </label>
         </form>
         <div class="error">{error}</div>

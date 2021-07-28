@@ -150,6 +150,23 @@ summary {
   align-items: flex-end;
 }
 
+.order_qty {
+  width: 80px;
+}
+
+.order_qty > * {
+  padding: 4px;
+}
+
+.order_qty > :nth-child(2) {
+  border-top: 1px;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0px;
+  border-color: #888;
+  border-style: solid;
+}
+
 .expire_day {
   width: 86px;
   font-size: 14px;
