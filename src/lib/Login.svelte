@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import { initialize, login, subscribe, getHost } from '$lib/login_state';
+  import { MOCK_HOST } from '$lib/const';
 
   // development http://localhost:18081
   // mock http://mock
@@ -9,7 +10,15 @@
   let show = false;
   let apiPassword = '';
   let apiHost = getHost();
+  let apiMock = getHost() === MOCK_HOST;
   let error = '';
+
+  $: {
+    console.log(apiMock);
+    if (apiMock) {
+      apiHost = MOCK_HOST;
+    }
+  }
 
   initialize();
 
@@ -44,12 +53,16 @@
       <h1>ログイン</h1>
       <div class="inputs">
         <form>
-          <label>API Key
+          <label class="input-text">API Key
             <input placeholder="API Key" type="password" bind:value={apiPassword} />
           </label>
-          <label>接続先
-            <input type="text" bind:value={apiHost} />
+          <label class="input-text">接続先
+            <input type="text" bind:value={apiHost} disabled={apiMock} />
           </label>
+          <div class="input-checkbox">
+            <input id="api_mock" type="checkbox" bind:checked={apiMock} />
+            <label for="api_mock">モック</label>
+          </div>
         </form>
         <div class="error">{error}</div>
         <button class="green-btn" on:click={onLogin}>ログイン</button>
@@ -121,7 +134,6 @@ label {
 }
 
 input {
-  width: 100%;
   border: 2px solid #ccc;
   font-size: 18px;
   padding: 8px;
@@ -133,5 +145,15 @@ input::placeholder {
 
 .error {
   color: red;
+}
+
+.input-text {
+  width: 100%;
+}
+
+.input-checkbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 </style>
