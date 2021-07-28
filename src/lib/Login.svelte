@@ -120,6 +120,12 @@
   gap: 10px;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 h1 {
   font-size: 24px;
   font-weight: 700;
@@ -131,6 +137,8 @@ label {
   font-size: 14px;
   font-weight: 700;
   color: #888;
+  display: flex;
+  flex-direction: column;
 }
 
 input {
@@ -145,10 +153,6 @@ input::placeholder {
 
 .error {
   color: red;
-}
-
-.input-text {
-  width: 100%;
 }
 
 .input-checkbox {
