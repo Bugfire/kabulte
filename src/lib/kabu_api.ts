@@ -1,11 +1,13 @@
-import { setValue, getValue } from '$lib/storage'
+import { setValue, getValue } from '$lib/storage';
+import type { ApiEnv } from '$lib/const';
+import { getApiHost } from '$lib/const';
 
 /** 以下SessionStore/Cookie に保持する時のキー */
 
 /** API Token */
 const API_TOKEN_KEY = 'API_TOKEN';
-/** API Host */
-const API_HOST_KEY = "API_HOST";
+/** API Env */
+const API_ENV_KEY = "API_ENV";
 
 /** 商品区分 */
 enum ProductEnum {
@@ -58,21 +60,22 @@ const clearAPIToken = (): void => {
 };
 
 /** API Host を取得する */
-const getAPIHost = (): string => {
-  return getValue(API_HOST_KEY) ?? '';
+const getApiEnv = (): ApiEnv => {
+  const apiEnv = getValue(API_ENV_KEY);
+  switch (apiEnv) {
+    default:
+    case 'prod':
+      return 'prod';
+    case 'dev':
+      return 'dev';
+    case 'mock':
+      return 'mock';
+  }
 };
 
 /** API の URL prefix を取得する */
 const baseUrl = (): string => {
-  const host = getAPIHost();
-  if (host === '') {
-    throw new Error('APIホストが未設定です');
-  }
-  const prefixes = ['http://', 'https://'];
-  if (!prefixes.some(v => host.substr(0, v.length) === v)) {
-    throw new Error(`APIホストは${prefixes.join(',')}で始まる必要があります`);
-  }
-  return `${host}/kabusapi`;
+  return `${getApiHost(getApiEnv())}/kabusapi`;
 }
 
 /** APIキーを取得します */
@@ -85,9 +88,9 @@ const getAPIKey = (): string => {
 };
 
 /** トークン発行: APIパスワードを渡し、API Token を取得する */
-const getAPIToken = async (apiPassword: string, apiHost: string): Promise<string> => {
+const getAPIToken = async (apiPassword: string, apiKey: string): Promise<string> => {
   setValue(API_TOKEN_KEY, '');
-  setValue(API_HOST_KEY, apiHost);
+  setValue(API_ENV_KEY, apiKey);
 
   const r = await fetch(`${baseUrl()}/token`, {
     method: 'POST',
@@ -544,7 +547,7 @@ export {
   hasAPIToken,
   getAPIToken,
   clearAPIToken,
-  getAPIHost,
+  getApiEnv,
   positions,
   orders,
   walletCash,

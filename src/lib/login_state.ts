@@ -1,7 +1,7 @@
 import { browser } from '$app/env';
 import { writable, Readable } from 'svelte/store';
-import { hasAPIToken, getAPIToken, clearAPIToken, getAPIHost } from '$lib/kabu_api';
-import { MOCK_HOST } from '$lib/const';
+import { hasAPIToken, getAPIToken, clearAPIToken, getApiEnv as getApiEnvFromStorage} from '$lib/kabu_api';
+import type { ApiEnv } from '$lib/const';
 
 type LoginState = 'init' | 'login' | 'logout';
 
@@ -10,7 +10,7 @@ const setLoginState = (): Readable<LoginState> &
   initialize: () => Promise<void>,
   login: (apiPassword: string, apiHost: string) => Promise<string>,
   logout: () => void,
-  getHost: () => string,
+  getApiEnv: () => ApiEnv,
 } => {
   const { subscribe, set } = writable<LoginState>('init');
   const initialize = async (): Promise<void> => {
@@ -23,25 +23,22 @@ const setLoginState = (): Readable<LoginState> &
       set('logout');
     }
   };
-  const getHost = (): string => {
+  const getApiEnv = (): ApiEnv => {
     if (!browser) {
-      return '';
+      return 'prod';
     }
-    return getAPIHost();
+    return getApiEnvFromStorage();
   };
   const logout = (): void => {
     clearAPIToken();
     set('logout');
   };
-  const login = async (apiPassword: string, apiHost: string): Promise<string> => {
+  const login = async (apiPassword: string, apiEnv: ApiEnv): Promise<string> => {
     try {
-      if (apiHost === '') {
-        throw Error("APIホストが空です");
-      }
-      if (apiHost !== MOCK_HOST && apiPassword === '') {
+      if (apiEnv !== 'mock' && apiPassword === '') {
         throw Error("APIパスワードが空です");
       }
-      await getAPIToken(apiPassword, apiHost);
+      await getAPIToken(apiPassword, apiEnv);
     } catch (e) {
       set('logout');
       return e.message;
@@ -54,9 +51,9 @@ const setLoginState = (): Readable<LoginState> &
     login,
     logout,
     subscribe,
-    getHost,
+    getApiEnv,
   };
 };
 
-export const { initialize, getHost, login, logout, subscribe } = setLoginState();
+export const { initialize, getApiEnv, login, logout, subscribe } = setLoginState();
 

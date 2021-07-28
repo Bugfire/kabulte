@@ -3,27 +3,18 @@
   import { onDestroy } from 'svelte';
   import type { SetupWorkerApi } from 'msw';
   import { setupWorker } from 'msw';
-  import { initialize, login, subscribe, getHost } from '$lib/login_state';
-  import { MOCK_HOST } from '$lib/const';
+  import { initialize, login, subscribe, getApiEnv } from '$lib/login_state';
   import { handlers } from '$lib/__mock__';
 
-  // development http://localhost:18081
-  // mock http://mock
-
-  const DEFAULT_HOST = 'http://localhost:18080';
-  const host = getHost();
   let show = false;
+  let loading = false;
   let apiPassword = '';
-  let apiHost = host === '' ? DEFAULT_HOST : host;
-  let apiMock = host === MOCK_HOST;
+  let apiEnv = getApiEnv();
   let error = '';
   let mockServiceWorker: SetupWorkerApi | null = null;
 
   $: {
     if (browser) {
-      if (apiMock) {
-        apiHost = MOCK_HOST;
-      }
       if (show) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -48,7 +39,7 @@
   onDestroy(unsubscribe);
 
   const onLogin = async () => {
-    if (apiMock) {
+    if (apiEnv === 'mock') {
       if (mockServiceWorker === null) {
         mockServiceWorker = setupWorker(...handlers);
         mockServiceWorker.start();
@@ -57,15 +48,22 @@
       mockServiceWorker.stop();
       mockServiceWorker = null;
     }
-    const pass = apiPassword;
-    apiPassword = '';
-    const message = await login(pass, apiHost);
-    error = message;
+    error = '';
+    loading = true;
+    try {
+      const message = await login(apiPassword, apiEnv);
+      apiPassword = '';
+      loading = false;
+      error = message;
+    } catch (e) {
+      apiPassword = '';
+      loading = false;
+      error = e.message;
+    }
   };
   const onClear = () => {
     apiPassword = '';
-    apiHost = DEFAULT_HOST;
-    apiMock = false;
+    apiEnv = 'prod';
     error = '';
   };
 </script>
@@ -76,22 +74,29 @@
       <h1>ログイン</h1>
       <div class="inputs">
         <form>
-          <label class="input-text">API Key
-            <input placeholder="API Key" type="password" bind:value={apiPassword} />
-          </label>
-          <label class="input-text">接続先
-            <input type="text" bind:value={apiHost} disabled={apiMock} />
-          </label>
-          <div class="input-checkbox">
-            <input id="api_mock" type="checkbox" bind:checked={apiMock} />
-            <label for="api_mock">モック</label>
+          <div class="input-radio">
+            <label>
+              <input type=radio name="api_host" value="prod" disabled={loading} bind:group={apiEnv} />
+              本番
+            </label>
+            <label>
+              <input type=radio name="api_host" value="dev" disabled={loading} bind:group={apiEnv} />
+              開発
+            </label>
+            <label>
+              <input type=radio name="api_host" value="mock" disabled={loading} bind:group={apiEnv} />
+              モック
+            </label>
           </div>
+          <label class="input-text">API Key
+            <input placeholder="API Key" type=password bind:value={apiPassword} disabled={loading || apiEnv === 'mock'} />
+          </label>
         </form>
         {#if error !== ''}
           <div class="error">{error}</div>
         {/if}
-        <button class="green-btn" on:click={onLogin}>ログイン</button>
-        <button class="gray-btn" on:click={onClear}>クリア</button>
+        <button class="green-btn" on:click={onLogin} disabled={loading}>ログイン</button>
+        <button class="gray-btn" on:click={onClear} disabled={loading}>クリア</button>
       </div>
     </div>
   </div>
@@ -183,9 +188,42 @@ input::placeholder {
   background: rgba(255, 0, 0, 0.1);
 }
 
-.input-checkbox {
+.input-text > input {
+  border-color: #888;
+}
+
+.input-text > input:disabled {
+  border-color: #eee;
+}
+
+.input-radio {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
   align-items: center;
+  gap: 12px;
+}
+
+.input-radio > label {
+  line-height: 1.2;
+}
+
+.input-radio > label > input {
+  transform: scale(2);
+}
+
+.input-radio > * {
+  gap: 12px;
+}
+
+.input-radio * {
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: 0;
 }
 </style>
