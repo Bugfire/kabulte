@@ -84,3 +84,19 @@ OpenAPI の定義ファイルはありますが、TypeScript の良さが感じ�
 
 - 開発中に SSR でサーバーでの実行を防ぐために、`import { browser } from '$app/env';` からの `if (browser)` で分岐しています。
 - もっと良い方法があれば教えてください。
+
+## SSG
+
+adapter-static を使いました。
+最初混乱したのですが、`.svelte-kit/output/` **ではなく**、`build` ディレクトリに出力されます。ディレクトリとドキュメント読んでればすぐ気がつくのにね...。
+
+## Dockerfile
+
+小さい httpd ないかな、と思ってぐぐってたら  
+https://devopsdirective.com/posts/2021/04/tiny-container-image/  
+面白い記事でした。
+
+https://github.com/nemasu/asmttpd  
+アセンブラでかかれた httpd。6.3kB の Image すごすぎて笑う。
+
+`npm run build` した後、docker image をビルドすると SSG されたものを動作させるコンテナが生成されます。
