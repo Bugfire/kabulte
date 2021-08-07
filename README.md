@@ -1,6 +1,6 @@
 # kabulte
 
-![Lint](https://github.com/Bugfire/kabulte/workflows/Lint/badge.svg)
+![Lint](https://github.com/Bugfire/kabulte/workflows/Lint/badge.svg)![Docker](https://github.com/Bugfire/kabulte/workflows/Docker/badge.svg)
 
 - Sveltekit を使ってみるテスト
 - Kabu Station API を使ってみるテスト
