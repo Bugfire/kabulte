@@ -9,9 +9,17 @@
   let symbol = '';
   let qty = '';
   let password = '';
+  let log: string[] = [];
   let exchange: StockExchangeEnum | null = null;
   let symbolDef: SymbolDef | null = null;
-  let state: 'wait_1' | 'ready_1' | 'load_1' | 'wait_2' | 'ready_2' | 'load_2' = 'wait_1';
+  let state: 'wait_1' | 'ready_1' | 'load_1' | 'wait_2' | 'ready_2' | 'load_2' | 'done' = 'wait_1';
+
+  const addLog = (message: string) => {
+    const now = new Date();
+    const padding2 = (value: number) => `0${value}`.substr(-2);
+    const timestamp = `${padding2(now.getHours())}:${padding2(now.getMinutes())}:${padding2(now.getSeconds())}`;
+    log = [...log, `${timestamp} ${message}`];
+  };
 
   const onReset = async (): Promise<void> => {
     if (state === 'load_1' || state === 'load_2') {
@@ -21,6 +29,7 @@
     exchange = null;
     symbolDef = null;
     state = 'wait_1';
+    log = [];
   };
 
   const onPush1 = async (): Promise<void> => {
@@ -30,6 +39,7 @@
     try {
       onReset();
       state = 'load_1';
+      addLog('クロス発注準備中...');
       exchange = await primaryexchange(symbol);
       symbolDef = await getSymbol(`${symbol}@${exchange}`);
 
@@ -39,8 +49,10 @@
       if (parseInt(qty, 10) % symbolDef.TradingUnit !== 0) {
         throw new Error('売買単位が一致しません');
       }
+      addLog('発注準備が完了しました');
       state = 'wait_2';
     } catch (e) {
+      addLog(e.message);
       console.log(e);
       state = 'wait_1';
       error = e.message;
@@ -52,6 +64,8 @@
       return;
     }
     try {
+      state = 'load_2';
+      addLog('発注中...');
       await sendorderMargin({
         Password: password,
         Symbol: symbol,
@@ -82,7 +96,10 @@
         Price: 0,
         ExpireDay: 0,
       });
+      addLog('発注が完了しました');
+      state = 'done';
     } catch (e) {
+      addLog(e.message);
       console.log(e);
       state = 'ready_2';
       error = e.message;
@@ -115,7 +132,7 @@
   {#if error !== ''}
     <div class="error">{error}</div>
   {/if}
-  <div class="inputs">
+  <div class="box">
     <form class="form inputs1">
       <label>銘柄
         <input class="gray-input-text small" type="text" placeholder="1234" bind:value={symbol} disabled={state !== 'wait_1' && state !== 'ready_1'} />
@@ -135,13 +152,21 @@
       </div>
     {/if}
   </div>
-  <div class="inputs">
+  <div class="box">
     <form class="form inputs1">
       <label>パスワード
         <input class="gray-input-text large" type="password" placeholder="発注パスワード" bind:value={password} disabled={state !== 'wait_2' && state !== 'ready_2'} />
       </label>
     </form>
     <button class="gray-btn" on:click={onPush2} disabled={state !== 'ready_2'}>クロス発注</button>
+  </div>
+  <div class="box">
+    <div>ログ</div>
+    <div>
+      {#each log as line}
+        <div>{ line }</div>
+      {/each}
+    </div>
   </div>
 </div>
 
@@ -156,7 +181,7 @@
     gap: 20px;
   }
 
-  .inputs {
+  .box {
     min-width: 500px;
     display: flex;
     flex-direction: column;
