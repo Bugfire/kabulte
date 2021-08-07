@@ -7,11 +7,11 @@ import { getApiHost } from '$lib/const';
 /** API Token */
 const API_TOKEN_KEY = 'API_TOKEN';
 /** API Env */
-const API_ENV_KEY = "API_ENV";
+const API_ENV_KEY = 'API_ENV';
 
 const objectToParams = (object: Record<string, unknown>): Record<string, string> => {
   const r: Record<string, string> = {};
-  Object.keys(object).forEach(key => {
+  Object.keys(object).forEach((key) => {
     r[key] = `${object[key]}`;
   });
   return r;
@@ -54,6 +54,15 @@ const getApiToken = (): string => {
 /** API の URL prefix を取得する */
 const baseUrl = (): string => {
   return `${getApiHost(getApiEnv())}/kabusapi`;
-}
+};
 
-export { objectToParams, baseUrl, getApiEnv, hasApiToken, clearApiToken, getApiToken, API_TOKEN_KEY, API_ENV_KEY };
+export {
+  objectToParams,
+  baseUrl,
+  getApiEnv,
+  hasApiToken,
+  clearApiToken,
+  getApiToken,
+  API_TOKEN_KEY,
+  API_ENV_KEY
+};

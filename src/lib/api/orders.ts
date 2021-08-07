@@ -1,4 +1,12 @@
-import type { CommonErrorResponse, MarginTradeTypeEnum, DetailExchangeEnum, AccountTypeEnum, SideEnum, ProductEnum, CashMarginEnum } from './common';
+import type {
+  CommonErrorResponse,
+  MarginTradeTypeEnum,
+  DetailExchangeEnum,
+  AccountTypeEnum,
+  SideEnum,
+  ProductEnum,
+  CashMarginEnum
+} from './common';
 import { objectToParams, baseUrl, getApiToken } from './util';
 
 /** 注文照会 */
@@ -6,7 +14,7 @@ const orders = async (request?: OrdersRequest): Promise<Order[]> => {
   const queryParams = new URLSearchParams(objectToParams(request ? request : {}));
   const r = await fetch(`${baseUrl()}/orders?${queryParams}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: OrdersResponse = await r.json();
@@ -42,8 +50,8 @@ enum OrderStateEnum {
   処理中 = 2,
   処理済 = 3,
   訂正取消送信中 = 4,
-  終了 = 5,
-};
+  終了 = 5
+}
 
 /** 執行条件 */
 enum OrderTypeEnum {
@@ -53,21 +61,21 @@ enum OrderTypeEnum {
   引け = 3,
   不成 = 4,
   対当指値 = 5,
-  IOC = 6,
-};
+  IOC = 6
+}
 
 /** 有効期間条件 */
 enum TimeInForceEnum {
   FAS = 1,
   FAK = 2,
-  FOK = 3,
-};
+  FOK = 3
+}
 
 /** 受渡区分 */
 enum DelivTypeEnum {
   自動振替 = 1,
-  お預かり金 = 2,
-};
+  お預かり金 = 2
+}
 
 /** 明細種別 */
 enum RecTypeEnum {
@@ -78,8 +86,8 @@ enum RecTypeEnum {
   訂正 = 5,
   取消 = 6,
   失効 = 7,
-  約定 = 8,
-};
+  約定 = 8
+}
 
 /** 状態 */
 enum DetalStateEnum {
@@ -87,8 +95,8 @@ enum DetalStateEnum {
   処理中 = 2,
   処理済 = 3,
   エラー = 4,
-  削除済み = 5,
-};
+  削除済み = 5
+}
 
 type Order共通 = {
   /** 注文番号 */
@@ -160,8 +168,7 @@ type OrderDetail = {
   CommissionTax?: number;
 };
 
-type Order現物 = Order共通 & {
-};
+type Order現物 = Order共通;
 
 type Order信用 = Order共通 & {
   /** 信用取引区分 */
@@ -185,19 +192,6 @@ type OrdersSuccessResponse = Order[];
 
 type OrdersResponse = OrdersSuccessResponse | CommonErrorResponse;
 
-export type {
-  Order,
-  Order現物,
-  Order信用,
-  Orderオプション,
-  Order先物,
-  OrdersResponse,
-};
+export type { Order, Order現物, Order信用, Orderオプション, Order先物, OrdersResponse };
 
-export {
-  orders,
-  OrderStateEnum,
-  RecTypeEnum,
-  DetalStateEnum,
-  OrderTypeEnum,
-}
+export { orders, OrderStateEnum, RecTypeEnum, DetalStateEnum, OrderTypeEnum };

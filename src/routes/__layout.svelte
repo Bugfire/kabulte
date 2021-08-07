@@ -1,19 +1,19 @@
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
+  import Header from '$lib/header/Header.svelte';
   import Login from '$lib/Login.svelte';
-	import '../app.css';
+  import '../app.css';
 </script>
 
 <Header />
 
 <main>
-	<slot />
+  <slot />
 </main>
 
 <Login />
 
 <style>
-main {
-  margin: 16px;
-}
+  main {
+    margin: 16px;
+  }
 </style>

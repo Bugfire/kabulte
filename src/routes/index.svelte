@@ -29,7 +29,7 @@
     }
   };
 
-  const unsubscribe = subscribe(value => {
+  const unsubscribe = subscribe((value) => {
     switch (value) {
       case 'login':
         reload();
@@ -43,7 +43,7 @@
 </script>
 
 <svelte:head>
-	<title>Kabulte</title>
+  <title>Kabulte</title>
 </svelte:head>
 
 <div class="container">

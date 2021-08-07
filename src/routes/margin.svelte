@@ -48,7 +48,7 @@
     }
   };
 
-  const unsubscribe = subscribe(value => {
+  const unsubscribe = subscribe((value) => {
     switch (value) {
       case 'login':
         reload();
@@ -62,7 +62,7 @@
 </script>
 
 <svelte:head>
-	<title>信用建玉</title>
+  <title>信用建玉</title>
 </svelte:head>
 
 <div class="container">
@@ -74,7 +74,7 @@
         <div class="list">
           <OrderMarginHeader />
           {#each list as order}
-            <OrderMarginItem order={order} />
+            <OrderMarginItem {order} />
           {/each}
         </div>
       {/each}
@@ -84,7 +84,7 @@
         <div class="list">
           <PositionMarginHeader />
           {#each list as position}
-            <PositionMarginItem position={position} />
+            <PositionMarginItem {position} />
           {/each}
         </div>
       {/each}

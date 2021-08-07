@@ -26,43 +26,46 @@
     </div>
     <div class="expire_day">{formatDate(order.ExpireDay)}</div>
     <div class="order_state">{OrderStateEnum[order.OrderState]}</div>
-    <div class="margin_premium">{typeof order.MarginPremium === 'number' ? order.MarginPremium + '円' : ''}</div>
+    <div class="margin_premium">
+      {typeof order.MarginPremium === 'number' ? order.MarginPremium + '円' : ''}
+    </div>
   </div>
   {#if order.Details.length > 0}
     <details>
       <summary>詳細</summary>
-        {#each order.Details as detail}
-          <div class="order">
-            <div class="detail_indent"></div>
-            <div class="detail_item">{RecTypeEnum[detail.RecType]}</div>
-            <div class="detail_item">{DetalStateEnum[detail.State]}</div>    
-            <div class="detail_item">
-              <div>数量</div>
-              <div>{detail.Qty}</div>
-            </div>
-            <div class="detail_item">
-              {#if detail.Price}
-                <div>値段</div>
-                <div>{detail.Price}円</div>
-              {/if}
-            </div>
-            <div class="detail_item">
-              {#if detail.OrdType !== null && OrderTypeEnum[detail.OrdType] !== ''}
-                <div>執行条件</div>
-                <div>{OrderTypeEnum[detail.OrdType]}</div>
-              {/if}
-            </div>
-            <div class="detail_item">
-              <div>受渡日</div>
-              <div>{formatDate(detail.DelivDay)}</div></div>
-            <div class="detail_item">
-              {#if detail.Commission}
-                <div>手数料</div>
-                <div>{detail.Commission}円</div>
-              {/if}
-            </div>
+      {#each order.Details as detail}
+        <div class="order">
+          <div class="detail_indent" />
+          <div class="detail_item">{RecTypeEnum[detail.RecType]}</div>
+          <div class="detail_item">{DetalStateEnum[detail.State]}</div>
+          <div class="detail_item">
+            <div>数量</div>
+            <div>{detail.Qty}</div>
           </div>
-        {/each}
+          <div class="detail_item">
+            {#if detail.Price}
+              <div>値段</div>
+              <div>{detail.Price}円</div>
+            {/if}
+          </div>
+          <div class="detail_item">
+            {#if detail.OrdType !== null && OrderTypeEnum[detail.OrdType] !== ''}
+              <div>執行条件</div>
+              <div>{OrderTypeEnum[detail.OrdType]}</div>
+            {/if}
+          </div>
+          <div class="detail_item">
+            <div>受渡日</div>
+            <div>{formatDate(detail.DelivDay)}</div>
+          </div>
+          <div class="detail_item">
+            {#if detail.Commission}
+              <div>手数料</div>
+              <div>{detail.Commission}円</div>
+            {/if}
+          </div>
+        </div>
+      {/each}
     </details>
   {/if}
 </div>

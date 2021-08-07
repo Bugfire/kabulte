@@ -25,7 +25,7 @@
 
   initialize();
 
-  const unsubscribe = subscribe(value => {
+  const unsubscribe = subscribe((value) => {
     switch (value) {
       case 'login':
       case 'init':
@@ -68,7 +68,7 @@
   };
 </script>
 
-<div class="login-background {show ? "modal-show" : "modal-hide"}">
+<div class="login-background {show ? 'modal-show' : 'modal-hide'}">
   <div class="login-container">
     <div class="login">
       <h1>ログイン</h1>
@@ -76,20 +76,45 @@
         <form>
           <div class="input-radio">
             <label>
-              <input type=radio name="api_host" value="prod" disabled={loading} bind:group={apiEnv} />
+              <input
+                type="radio"
+                name="api_host"
+                value="prod"
+                disabled={loading}
+                bind:group={apiEnv}
+              />
               本番
             </label>
             <label>
-              <input type=radio name="api_host" value="dev" disabled={loading} bind:group={apiEnv} />
+              <input
+                type="radio"
+                name="api_host"
+                value="dev"
+                disabled={loading}
+                bind:group={apiEnv}
+              />
               開発
             </label>
             <label>
-              <input type=radio name="api_host" value="mock" disabled={loading} bind:group={apiEnv} />
+              <input
+                type="radio"
+                name="api_host"
+                value="mock"
+                disabled={loading}
+                bind:group={apiEnv}
+              />
               モック
             </label>
           </div>
-          <label class="input-text">API Key
-            <input class="gray-input-text" placeholder="API Key" type=password bind:value={apiPassword} disabled={loading || apiEnv === 'mock'} />
+          <label class="input-text"
+            >API Key
+            <input
+              class="gray-input-text"
+              placeholder="API Key"
+              type="password"
+              bind:value={apiPassword}
+              disabled={loading || apiEnv === 'mock'}
+            />
           </label>
         </form>
         {#if error !== ''}
@@ -103,109 +128,109 @@
 </div>
 
 <style>
-.login-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-  visibility: visible;
-  transition: opacity .4s, visibility .3s;
-  background-color: rgba(32, 32, 32, .4);
-}
+  .login-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    transition: opacity 0.4s, visibility 0.3s;
+    background-color: rgba(32, 32, 32, 0.4);
+  }
 
-.modal-show {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity .3s, visibility .3s;
-}
+  .modal-show {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
 
-.modal-hide {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s, visibility .3s;
-}
+  .modal-hide {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+  }
 
-.login-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 240px;
-  background: #fafafa;
-  border-radius: 10px;
-  border-width: 0;
-  box-shadow: 0 0 16px rgba(0, 0, 0, .5);
-}
+  .login-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    background: #fafafa;
+    border-radius: 10px;
+    border-width: 0;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.5);
+  }
 
-.login {
-  padding: 20px 20px;
-  font-size: 18px;
-}
+  .login {
+    padding: 20px 20px;
+    font-size: 18px;
+  }
 
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
 
-h1 {
-  font-size: 24px;
-  font-weight: 700;
-  margin: 0;
-  text-align: center;
-}
+  h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+  }
 
-label {
-  font-size: 14px;
-  font-weight: 700;
-  color: #888;
-  display: flex;
-  flex-direction: column;
-}
+  label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #888;
+    display: flex;
+    flex-direction: column;
+  }
 
-.error {
-  color: red;
-  border-radius: 20px;
-  padding: 20px;
-  background: rgba(255, 0, 0, 0.1);
-}
+  .error {
+    color: red;
+    border-radius: 20px;
+    padding: 20px;
+    background: rgba(255, 0, 0, 0.1);
+  }
 
-.input-radio {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  gap: 12px;
-}
+  .input-radio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 12px;
+  }
 
-.input-radio > label {
-  line-height: 1.2;
-}
+  .input-radio > label {
+    line-height: 1.2;
+  }
 
-.input-radio > label > input {
-  transform: scale(2);
-}
+  .input-radio > label > input {
+    transform: scale(2);
+  }
 
-.input-radio > * {
-  gap: 12px;
-}
+  .input-radio > * {
+    gap: 12px;
+  }
 
-.input-radio * {
-  font-size: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  margin: 0;
-}
+  .input-radio * {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    margin: 0;
+  }
 </style>

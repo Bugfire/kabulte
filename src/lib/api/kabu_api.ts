@@ -1,7 +1,14 @@
 import { setValue } from '$lib/storage';
 import type { CommonErrorResponse } from './common';
 import { baseUrl, getApiToken, API_TOKEN_KEY, API_ENV_KEY } from './util';
-import { SideEnum, StockExchangeEnum, DetailExchangeEnum, CashMarginEnum, AccountTypeEnum, MarginTradeTypeEnum } from './common';
+import {
+  SideEnum,
+  StockExchangeEnum,
+  DetailExchangeEnum,
+  CashMarginEnum,
+  AccountTypeEnum,
+  MarginTradeTypeEnum
+} from './common';
 
 /** 銘柄情報 */
 type SymbolDef = {
@@ -60,8 +67,8 @@ const generateToken = async (apiPassword: string, apiKey: string): Promise<strin
 
   const r = await fetch(`${baseUrl()}/token`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', },
-    body: JSON.stringify({ APIpassword: apiPassword } as TokenRequest),
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ APIpassword: apiPassword } as TokenRequest)
   });
 
   const response: TokenResponse = await r.json();
@@ -94,7 +101,7 @@ type TokenResponse = TokenSuccessResponse | TokenErrorResponse;
 const walletCash = async (): Promise<number> => {
   const r = await fetch(`${baseUrl()}/wallet/cash`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: WalletCashResponse = await r.json();
@@ -118,7 +125,7 @@ type WalletCashResponse = WalletCashSuccessResponse | CommonErrorResponse;
 const walletMargin = async (): Promise<number> => {
   const r = await fetch(`${baseUrl()}/wallet/margin`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: WalletMarginResponse = await r.json();
@@ -146,7 +153,7 @@ const sendorderStock = async (req: SendorderStockRequest): Promise<void> => {
   const r = await fetch(`${baseUrl()}/sendorder`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
-    body: JSON.stringify(req),
+    body: JSON.stringify(req)
   });
 
   const response: SendorderResponse = await r.json();
@@ -164,7 +171,7 @@ const sendorderMargin = async (req: SendorderMarginRequest): Promise<void> => {
   const r = await fetch(`${baseUrl()}/sendorder`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
-    body: JSON.stringify(req),
+    body: JSON.stringify(req)
   });
 
   const response: SendorderResponse = await r.json();
@@ -238,23 +245,23 @@ type SendorderMarginRequest = SendorderRequestCommon & {
     HoldID: string;
     /** 返済建玉数量 */
     Qty: number;
-  }[],
+  }[];
 };
 
 /** 受渡区分 */
 enum SendorderDelivTypeEnum {
   指定なし = 0,
   自動振替 = 1,
-  お預かり金 = 2,
-};
+  お預かり金 = 2
+}
 
 /** 資産区分 */
 enum FundTypeEnum {
   現物売 = '  ',
   保護 = '02',
   信用代用 = 'AA',
-  信用取引 = '11',
-};
+  信用取引 = '11'
+}
 
 /** 執行条件 */
 enum FrontOrderTypeEnum {
@@ -278,14 +285,14 @@ enum FrontOrderTypeEnum {
   不成_前場 = 25,
   不成_後場 = 26,
   IOC指値 = 27,
-  逆指値 = 30,
-};
+  逆指値 = 30
+}
 
 /** 優先市場 */
 const primaryexchange = async (symbol: string): Promise<StockExchangeEnum> => {
   const r = await fetch(`${baseUrl()}/primaryexchange/${symbol}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: PrimaryExchangeResponse = await r.json();
@@ -312,7 +319,7 @@ type PrimaryExchangeResponse = PrimaryExchangeSuccessResponse | CommonErrorRespo
 const getSymbol = async (symbol: string): Promise<SymbolDef> => {
   const r = await fetch(`${baseUrl()}/symbol/${symbol}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: GetSymbolResponse = await r.json();
@@ -332,11 +339,7 @@ type GetSymbolResponse = SymbolDef | CommonErrorResponse;
 
 //
 
-export type {
-  SendorderStockRequest,
-  SendorderMarginRequest,
-  SymbolDef,
-};
+export type { SendorderStockRequest, SendorderMarginRequest, SymbolDef };
 
 export {
   generateToken,
@@ -346,5 +349,5 @@ export {
   sendorderMargin,
   primaryexchange,
   getSymbol,
-  CashMarginEnum,
+  CashMarginEnum
 };

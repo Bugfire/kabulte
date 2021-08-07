@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { MarginTradeTypeEnum, StockExchangeEnum, SideEnum, AccountTypeEnum, CashMarginEnum } from '$lib/api/common';
-  import { primaryexchange, sendorderMargin, getSymbol } from '$lib/api/kabu_api';
-
-  // なぜか SymbolDef が import できない
-  type SymbolDef = any;
+  import {
+    MarginTradeTypeEnum,
+    StockExchangeEnum,
+    SideEnum,
+    AccountTypeEnum,
+    CashMarginEnum
+  } from '$lib/api/common';
+  import { primaryexchange, sendorderMargin, getSymbol, SymbolDef } from '$lib/api/kabu_api';
 
   let error = '';
   let symbol = '';
@@ -17,7 +20,9 @@
   const addLog = (message: string) => {
     const now = new Date();
     const padding2 = (value: number) => `0${value}`.substr(-2);
-    const timestamp = `${padding2(now.getHours())}:${padding2(now.getMinutes())}:${padding2(now.getSeconds())}`;
+    const timestamp = `${padding2(now.getHours())}:${padding2(now.getMinutes())}:${padding2(
+      now.getSeconds()
+    )}`;
     log = [...log, `${timestamp} ${message}`];
   };
 
@@ -79,7 +84,7 @@
         Qty: parseInt(qty, 10),
         FrontOrderType: 10, // 成行
         Price: 0,
-        ExpireDay: 0,
+        ExpireDay: 0
       });
       await sendorderMargin({
         Password: password,
@@ -94,7 +99,7 @@
         Qty: parseInt(qty, 10),
         FrontOrderType: 10, // 成行
         Price: 0,
-        ExpireDay: 0,
+        ExpireDay: 0
       });
       addLog('発注が完了しました');
       state = 'done';
@@ -128,34 +133,74 @@
 </script>
 
 <div class="order-container">
-  <button class="gray-btn" on:click={onReset} disabled={state === 'load_1' || state === 'load_2'}>リセット</button>
+  <button class="gray-btn" on:click={onReset} disabled={state === 'load_1' || state === 'load_2'}
+    >リセット</button
+  >
   {#if error !== ''}
     <div class="error">{error}</div>
   {/if}
   <div class="box">
     <form class="form inputs1">
-      <label>銘柄
-        <input class="gray-input-text small" type="text" placeholder="1234" bind:value={symbol} disabled={state !== 'wait_1' && state !== 'ready_1'} />
+      <label
+        >銘柄
+        <input
+          class="gray-input-text small"
+          type="text"
+          placeholder="1234"
+          bind:value={symbol}
+          disabled={state !== 'wait_1' && state !== 'ready_1'}
+        />
       </label>
-      <label>数量
-        <input class="gray-input-text small" type="text" placeholder="100" bind:value={qty} disabled={state !== 'wait_1' && state !== 'ready_1'} />
+      <label
+        >数量
+        <input
+          class="gray-input-text small"
+          type="text"
+          placeholder="100"
+          bind:value={qty}
+          disabled={state !== 'wait_1' && state !== 'ready_1'}
+        />
       </label>
     </form>
-    <button class="gray-btn" on:click={onPush1} disabled={state !== 'ready_1'}>クロス発注準備</button>
-    {#if symbolDef !== null }
+    <button class="gray-btn" on:click={onPush1} disabled={state !== 'ready_1'}
+      >クロス発注準備</button
+    >
+    {#if symbolDef !== null}
       <div class="detail_1">
-        <div><div>優先市場</div><div>{StockExchangeEnum[exchange]}</div></div>
-        <div><div>銘柄名称</div><div>{symbolDef.SymbolName}</div></div>
-        <div><div>売買単位</div><div>{symbolDef.TradingUnit}</div></div>
-        <div><div>一般信用買建</div><div>{symbolDef.KCMarginBuy ? '可' : '-'}</div></div>
-        <div><div>一般信用売建</div><div>{symbolDef.KCMarginSell ? '可' : '-'}</div></div>
+        <div>
+          <div>優先市場</div>
+          <div>{StockExchangeEnum[exchange]}</div>
+        </div>
+        <div>
+          <div>銘柄名称</div>
+          <div>{symbolDef.SymbolName}</div>
+        </div>
+        <div>
+          <div>売買単位</div>
+          <div>{symbolDef.TradingUnit}</div>
+        </div>
+        <div>
+          <div>一般信用買建</div>
+          <div>{symbolDef.KCMarginBuy ? '可' : '-'}</div>
+        </div>
+        <div>
+          <div>一般信用売建</div>
+          <div>{symbolDef.KCMarginSell ? '可' : '-'}</div>
+        </div>
       </div>
     {/if}
   </div>
   <div class="box">
     <form class="form inputs1">
-      <label>パスワード
-        <input class="gray-input-text large" type="password" placeholder="発注パスワード" bind:value={password} disabled={state !== 'wait_2' && state !== 'ready_2'} />
+      <label
+        >パスワード
+        <input
+          class="gray-input-text large"
+          type="password"
+          placeholder="発注パスワード"
+          bind:value={password}
+          disabled={state !== 'wait_2' && state !== 'ready_2'}
+        />
       </label>
     </form>
     <button class="gray-btn" on:click={onPush2} disabled={state !== 'ready_2'}>クロス発注</button>
@@ -164,7 +209,7 @@
     <div>ログ</div>
     <div>
       {#each log as line}
-        <div>{ line }</div>
+        <div>{line}</div>
       {/each}
     </div>
   </div>

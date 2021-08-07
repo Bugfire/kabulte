@@ -46,7 +46,7 @@
     }
   };
 
-  const unsubscribe = subscribe(value => {
+  const unsubscribe = subscribe((value) => {
     switch (value) {
       case 'login':
         reload();
@@ -60,7 +60,7 @@
 </script>
 
 <svelte:head>
-	<title>現物株式</title>
+  <title>現物株式</title>
 </svelte:head>
 
 <div class="container">
@@ -72,7 +72,7 @@
         <div class="list">
           <OrderStockHeader />
           {#each list as order}
-            <OrderStockItem order={order} />
+            <OrderStockItem {order} />
           {/each}
         </div>
       {/each}
@@ -82,7 +82,7 @@
         <div class="list">
           <PositionStockHeader />
           {#each list as position}
-            <PositionStockItem position={position} />
+            <PositionStockItem {position} />
           {/each}
         </div>
       {/each}

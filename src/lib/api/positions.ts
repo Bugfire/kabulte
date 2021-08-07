@@ -1,4 +1,11 @@
-import type { CommonErrorResponse, MarginTradeTypeEnum, DetailExchangeEnum, AccountTypeEnum, SideEnum, ProductEnum } from './common';
+import type {
+  CommonErrorResponse,
+  MarginTradeTypeEnum,
+  DetailExchangeEnum,
+  AccountTypeEnum,
+  SideEnum,
+  ProductEnum
+} from './common';
 import { objectToParams, baseUrl, getApiToken } from './util';
 
 /** 残高照会 */
@@ -6,7 +13,7 @@ const positions = async (request?: PositionsRequest): Promise<Position[]> => {
   const queryParams = new URLSearchParams(objectToParams(request ? request : {}));
   const r = await fetch(`${baseUrl()}/positions?${queryParams}`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() },
+    headers: { 'Content-Type': 'application/json', 'X-API-KEY': getApiToken() }
   });
 
   const response: PositionsResponse = await r.json();
@@ -19,11 +26,11 @@ const positions = async (request?: PositionsRequest): Promise<Position[]> => {
 
 type PositionsRequest = {
   /** 取得する商品区分 */
-  product?: ProductEnum,
+  product?: ProductEnum;
   /** 銘柄コード */
   symbol?: string;
   /** 売買区分 */
-  side?: SideEnum,
+  side?: SideEnum;
   /** 追加情報指定フラグ: 現在値・評価金額・評価損益額・評価損益率 */
   addinfo?: boolean;
 };
@@ -120,14 +127,6 @@ type PositionsSuccessResponse = Position[];
 
 type PositionsResponse = PositionsSuccessResponse | CommonErrorResponse;
 
-export type {
-  Position,
-  Position現物,
-  Position信用,
-  Positionオプション,
-  Position先物,
-};
+export type { Position, Position現物, Position信用, Positionオプション, Position先物 };
 
-export {
-  positions,
-};
+export { positions };

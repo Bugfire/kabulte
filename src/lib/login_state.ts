@@ -6,12 +6,11 @@ import type { ApiEnv } from '$lib/const';
 
 type LoginState = 'init' | 'login' | 'logout';
 
-const setLoginState = (): Readable<LoginState> &
-{
-  initialize: () => Promise<void>,
-  login: (apiPassword: string, apiHost: string) => Promise<string>,
-  logout: () => void,
-  getApiEnv: () => ApiEnv,
+const setLoginState = (): Readable<LoginState> & {
+  initialize: () => Promise<void>;
+  login: (apiPassword: string, apiHost: string) => Promise<string>;
+  logout: () => void;
+  getApiEnv: () => ApiEnv;
 } => {
   const { subscribe, set } = writable<LoginState>('init');
   const initialize = async (): Promise<void> => {
@@ -37,7 +36,7 @@ const setLoginState = (): Readable<LoginState> &
   const login = async (apiPassword: string, apiEnv: ApiEnv): Promise<string> => {
     try {
       if (apiEnv !== 'mock' && apiPassword === '') {
-        throw Error("APIパスワードが空です");
+        throw Error('APIパスワードが空です');
       }
       await generateToken(apiPassword, apiEnv);
     } catch (e) {
@@ -52,9 +51,8 @@ const setLoginState = (): Readable<LoginState> &
     login,
     logout,
     subscribe,
-    getApiEnv,
+    getApiEnv
   };
 };
 
 export const { initialize, getApiEnv, login, logout, subscribe } = setLoginState();
-

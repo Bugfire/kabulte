@@ -15,11 +15,11 @@ const getCookie = (key: string): string | null => {
   const encodedKey = encodeURIComponent(key);
   const keyValue = document.cookie
     .split(';')
-    .map(v => v.trim())
-    .filter(v => v.length > 0)
-    .map(v => v.split('=').map(vv => vv.trim()))
-    .filter(v => v.length == 2)
-    .find(v => v[0] === encodedKey);
+    .map((v) => v.trim())
+    .filter((v) => v.length > 0)
+    .map((v) => v.split('=').map((vv) => vv.trim()))
+    .filter((v) => v.length == 2)
+    .find((v) => v[0] === encodedKey);
   if (keyValue === undefined) {
     return null;
   }

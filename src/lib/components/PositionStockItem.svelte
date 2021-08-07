@@ -15,10 +15,22 @@
     <div>現 {localeNumber(position.CurrentPrice)}円</div>
     <div>{localeNumber(position.Price)}円</div>
   </div>
-  <div class="qty">{localeNumber(position.LeavesQty)}{position.HoldQty > 0 ? ` (${localeNumber(position.HoldQty)})` : ''}</div>
+  <div class="qty">
+    {localeNumber(position.LeavesQty)}{position.HoldQty > 0
+      ? ` (${localeNumber(position.HoldQty)})`
+      : ''}
+  </div>
   <div class="valuation">{localeNumber(position.Valuation)}円</div>
   <div class="profitloss">
-    <div><span class="{position.ProfitLoss >= 0 ? 'red' : 'blue'}">{signedNumber(position.ProfitLoss)}</span>円</div>
-    <div><span class="{position.ProfitLoss >= 0 ? 'red' : 'blue'}">{signedNumberRatio(position.ProfitLossRate)}</span>%</div>
+    <div>
+      <span class={position.ProfitLoss >= 0 ? 'red' : 'blue'}
+        >{signedNumber(position.ProfitLoss)}</span
+      >円
+    </div>
+    <div>
+      <span class={position.ProfitLoss >= 0 ? 'red' : 'blue'}
+        >{signedNumberRatio(position.ProfitLossRate)}</span
+      >%
+    </div>
   </div>
 </div>

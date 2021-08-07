@@ -42,10 +42,10 @@
 https://kabu.com/company/lp/lp90.html
 au カブコム証券での API インターフェイスです。
 
-API 使用者はクライアントソフト(kabuステーション)を PC で起動し、そのクライアントソフトの起動・ログインで証券会社への接続を確立します。
+API 使用者はクライアントソフト(kabu ステーション)を PC で起動し、そのクライアントソフトの起動・ログインで証券会社への接続を確立します。
 API はこのクライアントソフトへの接続して利用します。
 
-つまり、このプログラムで用いられる API Key は、手元の PC で動作しているkabuステーションへの接続のためのものです。
+つまり、このプログラムで用いられる API Key は、手元の PC で動作している kabu ステーションへの接続のためのものです。
 
 このテストコードは、上の仕組みを前提としています。html 自身はどこでホストしても構いませんが、API は localhost へと通信しています。
 (同じ PC がホストしているとは限らないため CORS としています)
@@ -63,12 +63,12 @@ OpenAPI の定義ファイルはありますが、TypeScript の良さが感じ�
 
 ## LoginState
 
-- ログイン状態の保持・購読を login_state.ts で writable (Svelteストア)を使って実現しています。
-- 未ログイン状態の場合は、__layout.svelte で Login.svelte を用いログイン用 Modal Popup を表示します。
+- ログイン状態の保持・購読を login_state.ts で writable (Svelte ストア)を使って実現しています。
+- 未ログイン状態の場合は、\_\_layout.svelte で Login.svelte を用いログイン用 Modal Popup を表示します。
 - ログイン状態は login_state.ts で subscribe して各ページで取得しています。
-   - ログイン状態の場合は API を呼び出しています。
-   - API を呼び出した結果 API Key が無効だと判断できた場合は、login_state.ts の logout を呼び出し、未ログイン状態にします。
-   - 未ログイン状態の場合は前述のように Login.svelte はログイン用 Modal Popup を表示します。
+  - ログイン状態の場合は API を呼び出しています。
+  - API を呼び出した結果 API Key が無効だと判断できた場合は、login_state.ts の logout を呼び出し、未ログイン状態にします。
+  - 未ログイン状態の場合は前述のように Login.svelte はログイン用 Modal Popup を表示します。
 
 ## ブラウザでの実行に制限する
 
