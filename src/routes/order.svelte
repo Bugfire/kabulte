@@ -9,29 +9,27 @@
   import { primaryexchange, sendorderMargin, getSymbol } from '$lib/api/kabu_api';
   import type { SymbolDef } from '$lib/api/kabu_api';
 
-  let error = '';
   let symbol = '';
   let qty = '';
   let password = '';
-  let log: string[] = [];
+  let log: string[][] = [];
   let exchange: StockExchangeEnum | null = null;
   let symbolDef: SymbolDef | null = null;
   let state: 'wait_1' | 'ready_1' | 'load_1' | 'wait_2' | 'ready_2' | 'load_2' | 'done' = 'wait_1';
 
-  const addLog = (message: string) => {
+  const addLog = (message: string, className: string) => {
     const now = new Date();
     const padding2 = (value: number) => `0${value}`.substr(-2);
     const timestamp = `${padding2(now.getHours())}:${padding2(now.getMinutes())}:${padding2(
       now.getSeconds()
     )}`;
-    log = [...log, `${timestamp} ${message}`];
+    log = [...log, [`${timestamp} ${message}`, className]];
   };
 
   const onReset = async (): Promise<void> => {
     if (state === 'load_1' || state === 'load_2') {
       return;
     }
-    error = '';
     exchange = null;
     symbolDef = null;
     state = 'wait_1';
@@ -45,7 +43,7 @@
     try {
       onReset();
       state = 'load_1';
-      addLog('クロス発注準備中...');
+      addLog('クロス発注準備中...', 'info');
       exchange = await primaryexchange(symbol);
       symbolDef = await getSymbol(`${symbol}@${exchange}`);
 
@@ -55,13 +53,12 @@
       if (parseInt(qty, 10) % symbolDef.TradingUnit !== 0) {
         throw new Error('売買単位が一致しません');
       }
-      addLog('発注準備が完了しました');
+      addLog('発注準備が完了しました', 'info');
       state = 'wait_2';
     } catch (e) {
-      addLog(e.message);
+      addLog(e.message, 'error');
       console.log(e);
       state = 'wait_1';
-      error = e.message;
     }
   };
 
@@ -71,7 +68,7 @@
     }
     try {
       state = 'load_2';
-      addLog('発注中...');
+      addLog('発注中...', 'info');
       await sendorderMargin({
         Password: password,
         Symbol: symbol,
@@ -102,13 +99,12 @@
         Price: 0,
         ExpireDay: 0
       });
-      addLog('発注が完了しました');
+      addLog('発注が完了しました', 'info');
       state = 'done';
     } catch (e) {
-      addLog(e.message);
+      addLog(e.message, 'error');
       console.log(e);
       state = 'ready_2';
-      error = e.message;
     }
   };
 
@@ -137,9 +133,6 @@
   <button class="gray-btn" on:click={onReset} disabled={state === 'load_1' || state === 'load_2'}
     >リセット</button
   >
-  {#if error !== ''}
-    <div class="error">{error}</div>
-  {/if}
   <div class="box">
     <form class="form inputs1">
       <label
@@ -206,14 +199,15 @@
     </form>
     <button class="gray-btn" on:click={onPush2} disabled={state !== 'ready_2'}>クロス発注</button>
   </div>
-  <div class="box">
-    <div>ログ</div>
-    <div>
-      {#each log as line}
-        <div>{line}</div>
-      {/each}
+  {#if log.length > 0}
+    <div class="box">
+      <div>
+        {#each log as line}
+          <div class={line[1]}>{line[0]}</div>
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
 </div>
 
 <style>
@@ -282,10 +276,11 @@
     width: 320px;
   }
 
+  .info {
+    color: #060;
+  }
+
   .error {
-    color: red;
-    border-radius: 20px;
-    padding: 20px;
-    background: rgba(255, 0, 0, 0.1);
+    color: #a00;
   }
 </style>
