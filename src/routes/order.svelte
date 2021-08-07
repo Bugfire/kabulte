@@ -6,7 +6,8 @@
     AccountTypeEnum,
     CashMarginEnum
   } from '$lib/api/common';
-  import { primaryexchange, sendorderMargin, getSymbol, SymbolDef } from '$lib/api/kabu_api';
+  import { primaryexchange, sendorderMargin, getSymbol } from '$lib/api/kabu_api';
+  import type { SymbolDef } from '$lib/api/kabu_api';
 
   let error = '';
   let symbol = '';
