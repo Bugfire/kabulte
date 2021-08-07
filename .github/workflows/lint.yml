@@ -1,0 +1,27 @@
+name: Lint
+
+on: 'push'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CACHE_VERSION: v1
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          check-latest: true
+      - uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ env.CACHE_VERSION }}-${{ runner.os }}-v14-${{ hashFiles('package-lock.json') }}
+          restore-keys: ${{ env.CACHE_VERSION }}-${{ runner.os }}-v14-
+      - name: Install
+        run: |
+          npm install
+      - name: Lint
+        run: |
+          npm run lint

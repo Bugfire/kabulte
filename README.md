@@ -1,5 +1,7 @@
 # kabulte
 
+![Lint](https://github.com/Bugfire/kabulte/workflows/Lint/badge.svg)
+
 - Sveltekit を使ってみるテスト
 - Kabu Station API を使ってみるテスト
 - API を通じた取引手数料が無料になるのを楽しむテスト
