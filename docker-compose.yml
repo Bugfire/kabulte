@@ -4,6 +4,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: kabulte:0.0.1
+    image: ghcr.io/bugfire/kabulte:latest
     ports:
       - '3333:80'

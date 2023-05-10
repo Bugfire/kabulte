@@ -100,3 +100,7 @@ https://github.com/nemasu/asmttpd
 アセンブラでかかれた httpd。6.3kB の Image すごすぎて笑う。
 
 `npm run build` した後、docker image をビルドすると SSG されたものを動作させるコンテナが生成されます。
+
+### GitHub Container Registry
+
+ghcr.io/bugfire/kabulte:latest
