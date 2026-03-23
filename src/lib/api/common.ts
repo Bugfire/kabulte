@@ -30,7 +30,8 @@ enum DetailExchangeEnum {
   SOR = 9,
   日通し = 2,
   日中 = 23,
-  夜間 = 24
+  夜間 = 24,
+  東証プラス = 27,
 }
 
 /** string -> string は逆マップが定義されない */

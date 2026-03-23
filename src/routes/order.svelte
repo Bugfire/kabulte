@@ -46,6 +46,9 @@
       addLog('クロス発注準備中...', 'info');
       exchange = await primaryexchange(symbol);
       symbolDef = await getSymbol(`${symbol}@${exchange}`);
+      if (exchange === DetailExchangeEnum.東証) {
+        exchange = DetailExchangeEnum.東証プラス;
+      }
 
       if (symbolDef.KCMarginBuy === false || symbolDef.KCMarginSell === false) {
         throw new Error('一般信用が利用できません');
