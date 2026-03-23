@@ -1,9 +1,9 @@
-version: '3.8'
 services:
   kabulte:
     build:
       context: ./
       dockerfile: Dockerfile
-    image: ghcr.io/bugfire/kabulte:latest
+    platform: linux/amd64
+    image: ghcr.io/bugfire/kabulte:0.0.3
     ports:
       - '3333:80'
